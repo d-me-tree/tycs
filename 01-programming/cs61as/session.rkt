@@ -142,3 +142,23 @@
 ;  (define (next x) (+ x 1))
 ;  (define (good-enough? x) (< total (square (next x))))
 ;  (iterate guess next good-enough?))
+
+(define (func-pair p)
+  ((car p) (cdr p)))
+
+; §4 Playing Cards
+
+; Card
+(define (make-card rank suit)
+  (cons rank (first suit)))
+
+(define (rank card)
+  (car card))
+(define (suit card)
+  (cdr card))
+
+; Hand
+(define make-hand list) ;; constructor creates a list of cards
+(define first-card car)
+(define rest-hand cdr)
+(define empty-hand? null?)
