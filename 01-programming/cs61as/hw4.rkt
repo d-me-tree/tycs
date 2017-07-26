@@ -104,3 +104,11 @@ Louis needs to use append to make his procedure work
 
 (define (substitute2 lst old new)
   (error "Not yet implemented"))
+
+; Exercise 5
+; Hint: http://inst.eecs.berkeley.edu/~cs61as/library/church-hint
+
+; Exercise 6 - Define reverse
+
+(define (reverse lst)
+  (foldl cons '() lst))
