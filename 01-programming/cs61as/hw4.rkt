@@ -98,17 +98,68 @@ Louis needs to use append to make his procedure work
 ; Exercise 2 - Define my-substitute
 
 (define (substitute lst old new)
-  (error "Not yet implemented"))
+  (map (lambda (item) (if (list? item)
+                          (substitute item old new)
+                          (if (equal? item old) new item)))
+       lst))
+      
 
 ; Exercise 3 - Define my-substitute2
 
 (define (substitute2 lst old new)
-  (error "Not yet implemented"))
+  (define (get-ref el lst)
+    (if (equal? (car lst) el)
+        0
+        (+ 1 (get-ref el (cdr lst)))))
+  (map (lambda (item) (if (list? item)
+                          (substitute2 item old new)
+                          (if (member? item old)
+                              (list-ref new (get-ref item old))
+                              item)))
+       lst))
+
+; Exercise 4 - Define cxr-function
+
+(define (cxr-function wd)
+  (define (wd-to-list wd)
+    (cond [(= (count wd) 1) null]
+          [(equal? (first wd) 'a) (cons car (wd-to-list (bf wd)))]
+          [(equal? (first wd) 'd) (cons cdr (wd-to-list (bf wd)))]
+          [else (wd-to-list (bf wd))]))
+  (lambda (x)
+    (foldr (lambda (f v) (f v)) x (wd-to-list wd))))  
+
+; test
+(define a
+  (cons
+   ; car
+     (cons
+      ; car
+        (cons
+         ; car
+           1
+         ; cdr
+           (cons
+            ; car
+              (cons 2 3)
+            ; cdr
+              4
+            )
+         )
+      ; cdr
+        5
+      )
+   ; cdr
+     6
+   ))
+
+; ((cxr-function 'cadaar) a)  --> '(2 . 3)
+; equivalent to (car (cdr (car (car a))))
 
 ; Exercise 5
 ; Hint: http://inst.eecs.berkeley.edu/~cs61as/library/church-hint
 
-; Exercise 6 - Define reverse
+; Exercise 6 - Define my-reverse
 
-(define (reverse lst)
+(define (my-reverse lst)
   (foldl cons '() lst))
